@@ -5,8 +5,8 @@ Ce client est conçu pour fonctionner avec le serveur 803z, qui fournit les API 
 
 ## Prérequis
 
-- Node.js >= 14.x
-- npm >= 6.x
+- Node.js 20.10.0
+- npm 10.2.3
 
 ## Pour commencer
 
@@ -20,17 +20,17 @@ npm install
 
 ### Développement
 
-Démarrez le serveur de développement :
+Pour démarrer le serveur de développement :
 
 ```bash
 npm run dev
 ```
 
-Votre application sera disponible sur `http://localhost:3000`.
+L'application sera disponible sur `http://localhost:3000`.
 
 ## Build pour la production
 
-Créez une version de production :
+Pour compiler une version de production :
 
 ```bash
 npm run build
@@ -51,17 +51,17 @@ docker run -p 3000:3000 my-app
 
 ### Déploiement manuel
 
-Si vous êtes familier avec le déploiement d’applications Node, le serveur intégré est prêt pour la production.
-Assurez-vous de déployer le résultat de `npm run build`
+Si tu es familier avec le déploiement d’applications Node, le serveur intégré est prêt pour la production.
+Déploie le résultat de `npm run build`
 
 ```
 ├── package.json
 ├── package-lock.json (ou pnpm-lock.yaml, ou bun.lockb)
 ├── build/
-│   ├── client/    # Assets statiques
-│   └── server/    # Code côté serveur
+    ├── client/    # Assets statiques
+    └── server/    # Code côté serveur
 ```
 
 ## Style
 
-Le client web utilise TailwindCSS (vous pouvez personnaliser la configuration dans `tailwind.config.js`).
+Le client web utilise TailwindCSS (tu peux personnaliser la configuration dans `tailwind.config.js`).
