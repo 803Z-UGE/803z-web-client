@@ -22,6 +22,7 @@ import {
     SidebarSection,
 } from '@/components/atoms/sidebar';
 import { StackedLayout } from '@/components/atoms/stacked-layout';
+import { useAuth } from '@/contexts/auth';
 import {
     ArrowRightStartOnRectangleIcon,
     Cog8ToothIcon,
@@ -41,6 +42,7 @@ const navItems = [
 
 export default function NavbarLayout({ children }: { children: React.ReactNode }) {
     const location = useLocation();
+    const { isAuthenticated, logout } = useAuth();
     const currentPath = location.pathname;
 
     return (
@@ -73,53 +75,58 @@ export default function NavbarLayout({ children }: { children: React.ReactNode }
                         >
                             <MagnifyingGlassIcon />
                         </NavbarItem>
-                        <NavbarItem
-                            href="/order"
-                            aria-label="Order"
-                            current={currentPath.startsWith('/order')}
-                        >
-                            <ShoppingBagIcon />
-                        </NavbarItem>
-                        <NavbarDivider />
-                        <Dropdown>
-                            <DropdownButton
-                                as={NavbarItem}
-                                current={currentPath.startsWith('/account')}
+                        {isAuthenticated && (
+                            <NavbarItem
+                                href="/order"
+                                aria-label="Order"
+                                current={currentPath.startsWith('/order')}
                             >
-                                <Avatar square initials="KG" />
-                            </DropdownButton>
-                            <DropdownMenu className="min-w-64" anchor="bottom end">
-                                <DropdownItem href="/account/settings">
-                                    <Cog8ToothIcon />
-                                    <DropdownLabel>Paramètres</DropdownLabel>
-                                </DropdownItem>
-                                <DropdownItem href="/account/orders">
-                                    <RectangleStackIcon />
-                                    <DropdownLabel>Mes réservations</DropdownLabel>
-                                </DropdownItem>
-                                <DropdownDivider />
-                                <DropdownItem href="/account/privacy-policy">
-                                    <ShieldCheckIcon />
-                                    <DropdownLabel>Mentions légales</DropdownLabel>
-                                </DropdownItem>
-                                <DropdownItem href="mailto:guilland.killian@gmail.com">
-                                    <LightBulbIcon />
-                                    <DropdownLabel>Partager une idée</DropdownLabel>
-                                </DropdownItem>
-                                <DropdownDivider />
-                                <DropdownItem href="/auth/logout">
-                                    <ArrowRightStartOnRectangleIcon />
-                                    <DropdownLabel>Se déconnecter</DropdownLabel>
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                        <NavbarItem
-                            href="/auth/login"
-                            aria-label="Login"
-                            current={currentPath.startsWith('/auth')}
-                        >
-                            <UserIcon />
-                        </NavbarItem>
+                                <ShoppingBagIcon />
+                            </NavbarItem>
+                        )}
+                        <NavbarDivider />
+                        {isAuthenticated ? (
+                            <Dropdown>
+                                <DropdownButton
+                                    as={NavbarItem}
+                                    current={currentPath.startsWith('/account')}
+                                >
+                                    <Avatar square initials="KG" />
+                                </DropdownButton>
+                                <DropdownMenu className="min-w-64" anchor="bottom end">
+                                    <DropdownItem href="/account/settings">
+                                        <Cog8ToothIcon />
+                                        <DropdownLabel>Paramètres</DropdownLabel>
+                                    </DropdownItem>
+                                    <DropdownItem href="/account/orders">
+                                        <RectangleStackIcon />
+                                        <DropdownLabel>Mes réservations</DropdownLabel>
+                                    </DropdownItem>
+                                    <DropdownDivider />
+                                    <DropdownItem href="/account/privacy-policy">
+                                        <ShieldCheckIcon />
+                                        <DropdownLabel>Mentions légales</DropdownLabel>
+                                    </DropdownItem>
+                                    <DropdownItem href="mailto:guilland.killian@gmail.com">
+                                        <LightBulbIcon />
+                                        <DropdownLabel>Partager une idée</DropdownLabel>
+                                    </DropdownItem>
+                                    <DropdownDivider />
+                                    <DropdownItem onClick={logout}>
+                                        <ArrowRightStartOnRectangleIcon />
+                                        <DropdownLabel>Se déconnecter</DropdownLabel>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        ) : (
+                            <NavbarItem
+                                href="/auth/login"
+                                aria-label="Login"
+                                current={currentPath.startsWith('/auth')}
+                            >
+                                <UserIcon />
+                            </NavbarItem>
+                        )}
                     </NavbarSection>
                 </Navbar>
             }

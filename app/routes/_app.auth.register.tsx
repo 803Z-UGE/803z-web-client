@@ -1,3 +1,4 @@
+import { usersCreate } from '@/api';
 import { AuthLayout } from '@/components/atoms/auth-layout';
 import { Button } from '@/components/atoms/button';
 import { Checkbox, CheckboxField } from '@/components/atoms/checkbox';
@@ -5,10 +6,28 @@ import { Field, Label } from '@/components/atoms/fieldset';
 import { Heading } from '@/components/atoms/heading';
 import { Input } from '@/components/atoms/input';
 import { Strong, Text, TextLink } from '@/components/atoms/text';
+import { Form } from 'react-router';
+import type { Route } from '../+types/root';
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+    let formData = await request.formData();
+    const email = formData.get('email') as string;
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
+    const password = formData.get('password') as string;
+
+    usersCreate({
+        body: {
+            email,
+            first_name: firstName,
+            last_name: lastName,
+        },
+    });
+}
 
 export default function Register() {
     return (
-        <form action="#" method="POST" className="grid w-full max-w-sm grid-cols-1 gap-8">
+        <Form method="POST" className="grid w-full max-w-sm grid-cols-1 gap-8">
             <img src="/logo.svg" className="h-8 dark:invert-100" />
             <Heading>Inscris-toi</Heading>
             <Field>
@@ -47,6 +66,6 @@ export default function Register() {
                     <Strong>Se connecter</Strong>
                 </TextLink>
             </Text>
-        </form>
+        </Form>
     );
 }

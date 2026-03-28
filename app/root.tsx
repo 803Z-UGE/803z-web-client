@@ -10,6 +10,8 @@ import {
 import type { Route } from './+types/root';
 import './app.css';
 import { ThemeProvider, useTheme } from '@/contexts/theme';
+import Auth from './routes/_app.auth';
+import { AuthProvider } from './contexts/auth';
 
 export const links: Route.LinksFunction = () => [
     { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -24,7 +26,11 @@ export const links: Route.LinksFunction = () => [
     },
 ];
 
-export function LayoutContent({ children }: { children: React.ReactNode }) {
+export function HydrateFallback() {
+    return <p>Loading ...</p>;
+}
+
+export function LayoutContent() {
     const { theme } = useTheme();
 
     console.log('Current theme:', theme);
@@ -39,7 +45,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
                     <Links />
                 </head>
                 <body className={`${theme}`} suppressHydrationWarning>
-                    {children}
+                    <Outlet />
                     <ScrollRestoration />
                     <Scripts />
                 </body>
@@ -48,11 +54,15 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout() {
     return (
-        <ThemeProvider>
-            <LayoutContent>{children}</LayoutContent>
-        </ThemeProvider>
+        <AuthProvider>
+            <ThemeProvider>
+                <LayoutContent>
+                    <Outlet />
+                </LayoutContent>
+            </ThemeProvider>
+        </AuthProvider>
     );
 }
 

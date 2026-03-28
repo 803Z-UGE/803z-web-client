@@ -26,6 +26,14 @@ Pour démarrer le serveur de développement :
 npm run dev
 ```
 
+Il est possible de générer automatiquement les fonctions qui vont chercher les infos de l'API 803z en utilisant la commande suivante :
+
+```bash
+npm run generate-endpoints
+```
+
+Les endpoints générés seront placés dans le dossier `app/api/`.
+
 L'application sera disponible sur `http://localhost:3000`.
 
 ## Build pour la production
@@ -57,7 +65,7 @@ Déploie le résultat de `npm run build`
 ```
 ├── package.json
 ├── package-lock.json (ou pnpm-lock.yaml, ou bun.lockb)
-├── build/
+└── build/
     ├── client/    # Assets statiques
     └── server/    # Code côté serveur
 ```
